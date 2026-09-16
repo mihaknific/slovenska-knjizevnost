@@ -1,0 +1,82 @@
+[
+    {
+        "id": "preseren",
+        "name": "France Prešeren",
+        "type": "poet",
+        "dates": "1800–1849",
+        "birth": "3. december 1800",
+        "death": "8. februar 1849",
+        "period": "Romantika",
+        "image": "img/authors/preseren-goldenstein.webp",
+        "dataFile": "json/preseren.json",
+        "colorTheme": "classic",
+        "title": "Poezije doktorja Franceta Prešerna",
+        "bio": "Največji slovenski pesnik, avtor Zdravljice in Sonetnega venca.",
+        "longBio": "France Prešeren velja za največjega slovenskega pesnika. Njegova poezija je postavila temelje slovenski književnosti in vključuje neprecenljiva dela, kot sta Zdravljica in Sonetni venec. Svoj pesniški vrh je dosegel v zbirki Poezije, ki je prvič izšla leta 1847.",
+        "workCount": 228,
+        "links": {
+            "wikipedia": "https://sl.wikipedia.org/wiki/France_Prešeren",
+            "dlib": "https://www.dlib.si/results/?query='France+Prešeren'"
+        }
+    },
+    {
+        "id": "gregorcic",
+        "name": "Simon Gregorčič",
+        "type": "poet",
+        "dates": "1844–1906",
+        "birth": "15. oktober 1844",
+        "death": "24. november 1906",
+        "period": "Realizem",
+        "image": "img/authors/simon-gregorcic.webp",
+        "dataFile": "json/gregorcic.json",
+        "colorTheme": "nature",
+        "title": "Poezije Simona Gregorčiča",
+        "bio": "Goriški slavček, pesnik narave in domoljubja.",
+        "longBio": "Simon Gregorčič, znan kot goriški slavček, je eden najbolj priljubljenih slovenskih pesnikov. Njegove pesmi odražajo globoko ljubezen do domovine, narave in sočutje do človeka. Njegova najbolj znana dela so del štirih zbirk Poezij.",
+        "workCount": 99,
+        "links": {
+            "wikipedia": "https://sl.wikipedia.org/wiki/Simon_Gregorčič",
+            "dlib": "https://www.dlib.si/results/?query='Simon+Gregorčič'"
+        }
+    },
+    {
+        "id": "cankar",
+        "name": "Ivan Cankar",
+        "type": "writer",
+        "dates": "1876–1918",
+        "birth": "10. maj 1876",
+        "death": "11. december 1918",
+        "period": "Moderna",
+        "image": "img/authors/Ivan-Cankar-1.webp",
+        "dataFile": "json/cankar.json",
+        "colorTheme": "modern",
+        "title": "Dela Ivana Cankarja",
+        "bio": "Najpomembnejši slovenski pisatelj in dramatik, mojster črtice.",
+        "longBio": "Ivan Cankar je osrednja osebnost slovenske moderne. Bil je izjemen pisatelj, dramatik, pesnik in esejist. Njegova dela so polna psihološkega realizma, simbolizma in družbene kritike, kar ga uvršča med največje mojstre slovenske besede.",
+        "workCount": 117,
+        "links": {
+            "wikipedia": "https://sl.wikipedia.org/wiki/Ivan_Cankar",
+            "dlib": "https://www.dlib.si/results/?query='Ivan+Cankar'"
+        }
+    },
+    {
+        "id": "kette",
+        "name": "Dragotin Kette",
+        "type": "poet",
+        "dates": "1876–1899",
+        "birth": "19. januar 1876",
+        "death": "26. april 1899",
+        "period": "Moderna",
+        "image": "img/authors/Dragotin_Kette.webp",
+        "dataFile": "json/kette.json",
+        "colorTheme": "impressionist",
+        "title": "Poezije Dragotina Ketteja",
+        "bio": "Mojster soneta in novoromantične lirike.",
+        "longBio": "Dragotin Kette je bil poleg Murna, Cankarja in Župančiča eden izmed predstavnikov slovenske moderne. Čeprav je umrl mlad, je za seboj pustil izjemen pesniški opus, ki ga odlikujeta tenkočutnost in tehnična dovršenost.",
+        "workCount": 132,
+        "links": {
+            "wikipedia": "https://sl.wikipedia.org/wiki/Dragotin_Kette",
+            "dlib": "https://www.dlib.si/results/?query='Dragotin+Kette'"
+        }
+    }
+]

@@ -1,0 +1,29 @@
+{
+    "name": "Slovenska književnost",
+    "short_name": "Književnost",
+    "description": "Celovita zbirka slovenske poezije in proze. Prešeren, Cankar, Gregorčič in drugi na enem mestu, dostopni tudi brez povezave.",
+    "lang": "sl",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "orientation": "any",
+    "categories": [
+        "books",
+        "education"
+    ],
+    "icons": [
+        {
+            "src": "img/branding/favicon-0.svg",
+            "sizes": "192x192 512x512",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "img/branding/favicon-0.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "maskable"
+        }
+    ]
+}

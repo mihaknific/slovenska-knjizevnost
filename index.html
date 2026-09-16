@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+
+<html lang="sl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Slovenska književnost</title>
+    <meta name="description" content="Zbirka poezije in proze. Prešeren, Cankar, Gregorčič, Kette in drugi.">
+    <link rel="manifest" href="manifest.json">
+
+    <link href="css/app.css" rel="stylesheet" type="text/css" />
+
+    <link rel="icon" type="image/svg+xml" href="img/branding/favicon-0.svg">
+    <meta property="og:title" content="Slovenska književnost">
+    <meta property="og:description" content="Zbirka slovenske in svetovne poezije.">
+    <meta property="og:image" content="img/authors/preseren-goldenstein.webp">
+    <meta property="og:url" content="https://mihaknific.github.io/slovenska-knjizevnost/">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+    <!-- Top Right Controls -->
+    <button id="settings-toggle" aria-label="Nastavitve branja">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" id="settings-icon" aria-label="Odpri nastavitve" role="img">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <!-- VIEW 1: Portal Entry (Lobby) -->
+    <div id="view-portal-entry">
+        <header class="portal-header">
+            <div class="header-top-row">
+                <h1>Slovenska književnost</h1>
+            </div>
+            <div class="portal-actions">
+                <button class="portal-action-btn" id="portal-search" aria-label="Išči">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-icon"
+                        aria-hidden="true">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <span class="action-label">Iskanje</span>
+                </button>
+                <button class="portal-action-btn" id="portal-history-toggle" aria-label="Nedavno prebrano">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-icon"
+                        aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span class="action-label">Nedavno</span>
+                </button>
+                <button class="portal-action-btn" id="portal-periods-toggle" aria-label="Obdobja">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-icon"
+                        aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span class="action-label">Obdobja</span>
+                </button>
+                <button class="portal-action-btn" id="show-favorites" aria-label="Priljubljene">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-icon"
+                        aria-hidden="true">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                        </path>
+                    </svg>
+                    <span class="action-label">Priljubljene</span>
+                </button>
+                <button class="portal-action-btn" id="show-bookmarks" aria-label="Zaznamki">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-icon"
+                        aria-hidden="true">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="action-label">Zaznamki</span>
+                </button>
+            </div>
+        </header>
+        <div id="history-section" class="hidden"></div>
+        <!-- Hero Section for Resuming Reading -->
+        <div id="resume-hero-section" class="hidden"></div>
+        <div id="period-filters" class="period-filters hidden"></div>
+        <div id="authors-grid" class="authors-grid">
+            <!-- Cards injected via JS -->
+        </div>
+    </div>
+
+    <!-- VIEW 2: Collection (Specific Author) -->
+    <div id="view-collection" class="view-section hidden">
+        <div id="favorites-list-view" class="hidden">
+            <h2>Priljubljene pesmi</h2>
+            <div id="favorites-container"></div>
+            <div id="bookmarks-container" class="hidden"></div>
+        </div>
+        <main id="main-content" tabindex="0" aria-live="polite">
+            <!-- Dynamic Content (Poem or List) -->
+            <img src="img/authors/author-placeholder.svg" alt="Portret avtorja" class="circle" id="author-image">
+            <h1 id="main-title">Nalaganje...</h1>
+            <div id="author-bio-container">
+                <div id="author-meta-detail" class="author-meta-detail hidden">
+                    <span id="author-birth-death"></span>
+                </div>
+                <div id="author-external-links" class="external-links-container hidden">
+                    <!-- Links injected via JS -->
+                </div>
+            </div>
+            <div id="poem-list-wrapper"></div>
+        </main>
+
+        <div id="top-left-controls">
+            <button id="sort-buttons" aria-label="Razvrsti pesmi">
+                <svg id="sort-icon-group" class="sort-icon" width="32" height="32" viewBox="0 0 512 512"
+                    fill="currentColor" fill-rule="evenodd">
+                    <g>
+                        <path
+                            d="M 100.5,31.5 C 203.834,31.3333 307.167,31.5 410.5,32C 443.144,41.6568 457.978,63.4902 455,97.5C 453.716,105.019 451.049,112.019 447,118.5C 405.333,169.5 363.667,220.5 322,271.5C 321.08,274.101 320.413,276.768 320,279.5C 319.667,325.5 319.333,371.5 319,417.5C 316.423,425.413 311.589,431.58 304.5,436C 282.136,450.514 259.469,464.514 236.5,478C 219.771,482.866 205.938,478.7 195,465.5C 193.725,463.283 192.725,460.949 192,458.5C 191.667,398.833 191.333,339.167 191,279.5C 190.587,276.768 189.92,274.101 189,271.5C 148.378,221.209 107.378,171.209 66,121.5C 52.7876,100.243 52.1209,78.5767 64,56.5C 73.0975,43.5506 85.2642,35.2172 100.5,31.5 Z M 111.5,79.5 C 207.501,79.3333 303.501,79.5 399.5,80C 406.347,81.8656 408.18,86.0323 405,92.5C 363.711,143.458 322.044,194.124 280,244.5C 276.918,247.659 274.584,251.325 273,255.5C 271.681,303.108 271.014,350.775 271,398.5C 260.667,405.167 250.333,411.833 240,418.5C 239.987,364.109 239.321,309.775 238,255.5C 236.416,251.325 234.082,247.659 231,244.5C 189.333,193.833 147.667,143.167 106,92.5C 102.953,85.9387 104.787,81.6054 111.5,79.5 Z" />
+                    </g>
+                </svg>
+                <svg id="sort-icon-alpha" class="sort-icon hidden" width="32" height="32" viewBox="0 0 512 512"
+                    fill="currentColor">
+                    <g>
+                        <path
+                            d="M 20.5,20.5 C 148.833,20.5 277.167,20.5 405.5,20.5C 405.5,56.1667 405.5,91.8333 405.5,127.5C 390.833,127.5 376.167,127.5 361.5,127.5C 361.5,106.167 361.5,84.8333 361.5,63.5C 319.167,63.5 276.833,63.5 234.5,63.5C 234.5,191.5 234.5,319.5 234.5,447.5C 255.833,447.5 277.167,447.5 298.5,447.5C 298.5,461.833 298.5,476.167 298.5,490.5C 241.5,490.5 184.5,490.5 127.5,490.5C 127.5,476.167 127.5,461.833 127.5,447.5C 148.833,447.5 170.167,447.5 191.5,447.5C 191.5,319.5 191.5,191.5 191.5,63.5C 148.833,63.5 106.167,63.5 63.5,63.5C 63.5,84.8333 63.5,106.167 63.5,127.5C 49.1667,127.5 34.8333,127.5 20.5,127.5C 20.5,91.8333 20.5,56.1667 20.5,20.5 Z" />
+                    </g>
+                    <g>
+                        <path
+                            d="M 383.5,169.5 C 397.833,169.5 412.167,169.5 426.5,169.5C 426.333,237.167 426.5,304.834 427,372.5C 440.681,358.653 454.514,344.986 468.5,331.5C 479.167,341.5 489.5,351.833 499.5,362.5C 468.474,394.36 436.974,425.693 405,456.5C 372.833,425.667 341.333,394.167 310.5,362C 319.972,351.361 329.972,341.194 340.5,331.5C 354.819,345.319 368.986,359.319 383,373.5C 383.5,305.501 383.667,237.501 383.5,169.5 Z" />
+                    </g>
+                </svg>
+            </button>
+        </div>
+
+
+
+        <nav>
+            <button id="left-arrow" class="nav-btn" aria-label="Prejšnja pesem">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" aria-label="Prejšnja"
+                    role="img">
+                    <path fill="currentColor"
+                        d="M10,20A10,10,0,1,0,0,10,10,10,0,0,0,10,20ZM11.289,4.3,12.711,5.7l-4.3,4.344L12.7,14.289,11.3,15.711,5.586,10.063Z" />
+                </svg>
+            </button>
+            <button id="home" class="nav-btn" aria-label="Nazaj na seznam avtorjev" data-mode="collection">
+                <svg id="icon-home" width="20" height="20" viewBox="0 0 20 20" aria-label="Domov" role="img"
+                    class="hidden">
+                    <path fill="currentColor" fill-rule="evenodd"
+                        d="M10,0C4.477,0,0,4.477,0,10s4.477,10,10,10s10,-4.477,10,-10S15.523,0,10,0z M10,5l5,4.5v5.5h-3v-4h-4v4h-3V9.5L10,5z" />
+                </svg>
+                <svg id="icon-collection" width="20" height="20" viewBox="0 0 24 24" aria-label="Zbirka" role="img">
+                    <defs>
+                        <mask id="icon-mask-collection">
+                            <circle cx="12" cy="12" r="12" fill="white" />
+                            <g stroke="black" fill="none" stroke-width="1.91" stroke-miterlimit="10"
+                                transform="translate(3, 3) scale(0.75)">
+                                <polygon points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 16.77 5.32 16.77 8.18" />
+                                <line x1="6.27" y1="13.91" x2="13.91" y2="13.91" />
+                                <line x1="6.27" y1="10.09" x2="13.91" y2="10.09" />
+                                <line x1="6.27" y1="17.73" x2="12" y2="17.73" />
+                                <polyline points="20.59 19.64 20.59 4.36 20.59 1.5 6.27 1.5" />
+                            </g>
+                        </mask>
+                    </defs>
+                    <rect width="24" height="24" fill="currentColor" mask="url(#icon-mask-collection)" />
+                </svg>
+                <svg id="icon-preseren" width="20" height="20" viewBox="0 0 100 100" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" aria-label="Prešeren" role="img" class="hidden">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M0 50C0 22.3857 22.3858 0 50 0C77.6142 0 100 22.3857 100 50C100 77.6143 77.6142 100 50 100C22.3858 100 0 77.6143 0 50ZM58.0627 8H62.8772C71.4858 9.80237 76.4662 15.0595 77.8186 23.7715C81.9831 25.2344 84.9438 28.0012 86.7004 32.0723C89.1092 39.012 87.5873 44.9056 82.135 49.7529C79.1422 51.9771 75.7665 53.0562 72.0081 52.9902C70.3791 57.4416 67.3356 60.4299 62.8772 61.9551C63.363 65.505 62.6435 68.77 60.719 71.75C61.7584 73.6785 62.45 75.7259 62.7942 77.8926C62.8772 81.2678 62.9049 84.6434 62.8772 88.0195H72.8381V93H28.0139V88.0195H37.9749C37.9471 84.6434 37.9749 81.2678 38.0579 77.8926C38.402 75.7259 39.0937 73.6785 40.1331 71.75C38.1859 68.7737 37.4664 65.5087 37.9749 61.9551C33.5165 60.4299 30.473 57.4416 28.844 52.9902C22.375 52.9539 17.5882 50.1316 14.4837 44.5234C11.8758 38.3502 12.7059 32.7056 16.9739 27.5898C20.2312 24.3165 24.1879 22.7117 28.844 22.7754C31.9219 15.6727 37.3452 12.4354 45.1136 13.0635C45.9084 13.1837 46.6832 13.3773 47.4377 13.6445C50.3282 10.5391 53.8699 8.65765 58.0627 8ZM60.2209 12.9805C66.2168 13.3333 70.2289 16.3216 72.2571 21.9453C72.3889 22.4386 72.4996 22.9366 72.5891 23.4395C72.617 24.8815 72.7 26.3201 72.8381 27.7559C79.587 28.8297 82.8243 32.7585 82.55 39.543C81.2794 44.6039 78.0421 47.3709 72.8381 47.8438C71.2304 47.5886 69.6256 47.312 68.0237 47.0137C67.8431 51.3359 65.9063 54.5732 62.2131 56.7256C58.9773 58.0736 55.823 57.9076 52.7502 56.2275C51.9521 55.6783 51.1772 55.0973 50.426 54.4844C48.7742 56.03 46.8373 57.0536 44.6155 57.5557C39.2623 58.0477 35.5822 55.8065 33.5755 50.832C33.2547 49.5715 33.0057 48.2986 32.8284 47.0137C31.2265 47.312 29.6216 47.5886 28.0139 47.8438C23.1927 47.44 20.0108 44.9498 18.468 40.373C17.5686 35.9312 18.9243 32.3618 22.5354 29.665C24.2169 28.6343 26.043 28.0532 28.0139 27.9219C29.6216 28.1771 31.2265 28.4536 32.8284 28.752C33.3278 22.3599 36.7311 18.7629 43.0384 17.9609C45.1829 18.2155 47.2029 18.8796 49.0979 19.9531C50.3831 17.9759 51.9879 16.288 53.9124 14.8896C55.8825 13.7342 57.9854 13.0978 60.2209 12.9805ZM50.094 60.959C51.1748 61.2772 52.2261 61.6923 53.2483 62.2041C52.3755 62.9379 51.4349 63.5744 50.426 64.1133C49.4172 63.5744 48.4765 62.9379 47.6038 62.2041C48.4903 61.8716 49.3204 61.4565 50.094 60.959ZM43.1214 65.1094C45.2971 67.3607 47.8981 68.9379 50.9241 69.8408C54.5857 71.5665 56.8269 74.4164 57.6477 78.3906C57.8707 81.5957 57.9537 84.8055 57.8967 88.0195H52.9163C52.944 84.9755 52.9163 81.9318 52.8333 78.8887C51.96 74.6407 49.5528 71.6246 45.6116 69.8408C44.1013 68.6188 43.2713 67.0416 43.1214 65.1094ZM57.5647 65.1094C57.7437 65.9927 57.5499 66.8228 56.9836 67.5996C56.6393 67.2756 56.2796 66.9713 55.9045 66.6865C56.541 66.2436 57.0944 65.7178 57.5647 65.1094ZM44.2835 75.0703C46.0618 75.992 47.1962 77.4309 47.6868 79.3867C47.9126 82.259 47.9956 85.1367 47.9358 88.0195H42.9554C42.8984 84.8055 42.9814 81.5957 43.2044 78.3906C43.4489 77.2419 43.8087 76.1351 44.2835 75.0703ZM67.2767 22.2773C65.4437 18.8843 62.5939 17.4456 58.7269 17.9609C54.9993 19.0496 53.0624 21.5399 52.9163 25.4316H58.0628C58.1171 23.9387 58.8917 23.1639 60.387 23.1074C61.8823 23.1639 62.657 23.9387 62.7112 25.4316H67.8577C67.9465 24.3265 67.7528 23.2751 67.2767 22.2773ZM48.7659 27.9219C52.6329 27.4066 55.4828 28.8452 57.3157 32.2383C57.7919 33.236 57.9856 34.2874 57.8968 35.3926H52.7503C52.696 33.8996 51.9214 33.1248 50.4261 33.0684C48.9308 33.1248 48.1562 33.8996 48.1019 35.3926H42.9554C43.1015 31.5008 45.0384 29.0106 48.7659 27.9219ZM37.3938 37.2188C35.5609 33.8257 32.711 32.387 28.844 32.9023C25.1165 33.991 23.1797 36.4813 23.0335 40.373H28.18C28.2343 38.8801 29.0089 38.1052 30.5042 38.0488C31.9995 38.1052 32.7741 38.8801 32.8284 40.373H37.9749C38.0637 39.2679 37.87 38.2165 37.3938 37.2188ZM68.6878 32.9023C72.5548 32.387 75.4046 33.8257 77.2376 37.2188C77.7137 38.2165 77.9075 39.2679 77.8187 40.373H72.6722C72.6179 38.8801 71.8433 38.1052 70.348 38.0488C68.8527 38.1052 68.078 38.8801 68.0237 40.373H62.8773C63.0233 36.4813 64.9603 33.991 68.6878 32.9023ZM52.3352 47.1797C50.5023 43.7866 47.6524 42.348 43.7854 42.8633C40.0579 43.952 38.121 46.4422 37.9749 50.334H43.1214C43.1757 48.841 43.9503 48.0662 45.4456 48.0098C46.9409 48.0662 47.7155 48.841 47.7698 50.334H52.9163C53.0051 49.2288 52.8114 48.1774 52.3352 47.1797Z"
+                        fill="currentColor" />
+                </svg>
+            </button>
+
+            <button id="right-arrow" class="nav-btn" aria-label="Naslednja pesem">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+                    aria-label="Naslednja" role="img">
+                    <path fill="currentColor"
+                        d="M10,20A10,10,0,1,0,0,10,10,10,0,0,0,10,20ZM8.711,4.3l5.7,5.766L8.7,15.711,7.3,14.289l4.289-4.242L7.289,5.7Z" />
+                </svg>
+            </button>
+        </nav>
+    </div>
+
+    <!-- TEMPLATES -->
+    <template id="tpl-author-card">
+        <a href="#" class="author-card">
+            <div class="card-image-wrapper">
+                <img class="author-image" src="" alt="" loading="lazy">
+            </div>
+            <div class="author-info">
+                <h2 class="author-name"></h2>
+                <span class="author-dates"></span>
+                <span class="author-stats"></span>
+            </div>
+        </a>
+    </template>
+
+    <template id="tpl-poem-item">
+        <p><a href="" class="poem-link"></a></p>
+    </template>
+
+    <template id="tpl-poem-header">
+        <h2 class="poem-group-header"></h2>
+    </template>
+
+    <template id="tpl-poem-subgroup-header">
+        <h3 class="poem-subgroup-header"></h3>
+    </template>
+
+    <template id="tpl-inline-search">
+        <div class="inline-search-container">
+            <input type="text" id="inline-search" name="inline-search" class="inline-search-input"
+                placeholder="Poišči naslov ..." autocomplete="off">
+        </div>
+    </template>
+
+    <template id="tpl-poem-view">
+        <div id="poem-actions-bar" class="poem-actions-bar">
+            <div class="poem-actions">
+                <button id="toggle-favorite" class="action-btn">
+                    <svg class="heart-icon" viewBox="0 0 24 24" width="28" height="28">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    <span class="fav-label"></span>
+                </button>
+                <button id="share-poem" class="action-btn" title="Deli">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28"
+                        height="28" aria-label="Deli" role="img">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    <span>Deli</span>
+                </button>
+                <button id="speak-poem" class="action-btn" title="Beri na glas">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28"
+                        height="28" aria-label="Beri" role="img">
+                        <path
+                            d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                    </svg>
+                    <span>Beri</span>
+                </button>
+                <button id="bookmark-poem" class="action-btn" title="Zaznamek">
+                    <svg class="bookmark-icon" viewBox="0 0 24 24" width="28" height="28">
+                        <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z" />
+                    </svg>
+                    <span class="bookmark-label"></span>
+                </button>
+            </div>
+        </div>
+        <div id="tts-controls" class="tts-player-bar">
+            <div class="tts-player-content">
+                <button id="tts-play-pause" class="tts-btn" title="Pavza/Nadaljuj">⏸</button>
+                <button id="tts-stop" class="tts-btn" title="Ustavi">⏹</button>
+                <div class="tts-stepper">
+                    <button id="tts-slower" class="stepper-btn" title="Počasneje" aria-label="Počasneje">−</button>
+                    <span id="tts-rate-value" class="slider-value"></span>
+                    <button id="tts-faster" class="stepper-btn" title="Hitreje" aria-label="Hitreje">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="poem-content-area">
+            <h3 id="poem-title-display"></h3>
+            <p id="poem-content-text"></p>
+        </div>
+    </template>
+
+    <template id="tpl-fav-item">
+        <div class="fav-item-wrapper">
+            <a href="" class="fav-item">
+                <div class="fav-info">
+                    <strong class="fav-title"></strong>
+                    <span class="fav-author"></span>
+                </div>
+            </a>
+            <div class="fav-remove" title="Odstrani">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-label="Odstrani" role="img">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-bookmark-item">
+        <div class="fav-item-wrapper">
+            <a href="" class="fav-item">
+                <div class="fav-info">
+                    <strong class="fav-title"></strong>
+                    <span class="fav-author"></span>
+                </div>
+            </a>
+            <div class="bookmark-remove" title="Odstrani zaznamek">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-label="Odstrani zaznamek" role="img">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-history-item">
+        <a href="" class="history-card">
+            <div class="history-card-content">
+                <div class="history-thumb-wrapper">
+                    <img src="" alt="" class="history-thumb">
+                </div>
+                <div class="history-info">
+                    <span class="history-poem-title"></span>
+                    <span class="history-author-name"></span>
+                </div>
+            </div>
+        </a>
+    </template>
+
+    <template id="tpl-search-author">
+        <a href="" class="search-res-item">
+            <img src="" class="res-thumb" alt="">
+            <span class="res-name"></span>
+        </a>
+    </template>
+
+    <template id="tpl-search-group">
+        <a href="" class="search-res-item">
+            <div class="res-info">
+                <strong class="res-group-title"></strong>
+                <span class="res-author"></span>
+            </div>
+        </a>
+    </template>
+
+    <template id="tpl-search-poem">
+        <a href="" class="search-res-item">
+            <div class="res-info">
+                <strong class="res-poem-title"></strong>
+                <span class="res-author"></span>
+                <span class="res-snippet"></span>
+            </div>
+        </a>
+    </template>
+
+    <template id="tpl-skeleton-list">
+        <div class="skeleton-title skeleton"></div>
+        <div class="skeleton-item skeleton"></div>
+        <div class="skeleton-item skeleton"></div>
+        <div class="skeleton-item skeleton"></div>
+        <div class="skeleton-item skeleton"></div>
+        <div class="skeleton-item skeleton"></div>
+    </template>
+
+    <template id="tpl-skeleton-poem">
+        <div class="poem-content-area">
+            <div class="skeleton-title skeleton"></div>
+            <div class="skeleton-text skeleton" style="width: 100%"></div>
+            <div class="skeleton-text skeleton" style="width: 90%"></div>
+            <div class="skeleton-text skeleton" style="width: 95%"></div>
+            <div class="skeleton-text skeleton" style="width: 80%"></div>
+            <div class="skeleton-text skeleton" style="width: 100%"></div>
+            <div class="skeleton-text skeleton" style="width: 85%"></div>
+            <div class="skeleton-text skeleton" style="width: 90%"></div>
+        </div>
+    </template>
+
+    <template id="tpl-period-pill">
+        <button class="period-pill" data-period=""></button>
+    </template>
+
+    <!-- Global Search Overlay -->
+    <div id="search-overlay" class="hidden" aria-hidden="true">
+        <div class="search-container">
+            <header class="search-header">
+                <input type="text" id="global-search-input" name="global-search"
+                    placeholder="Išči po avtorji, zbirkah ali delih ..." autocomplete="off"
+                    aria-label="Globalno iskanje">
+                <button id="close-search">&times;</button>
+            </header>
+            <div class="search-filters">
+                <button class="filter-pill active" data-filter="all">Vse</button>
+                <button class="filter-pill" data-filter="author">Avtorji</button>
+                <button class="filter-pill" data-filter="poetry">Poezija</button>
+                <button class="filter-pill" data-filter="prose">Proza</button>
+                <button class="filter-pill" data-filter="play">Dramatika</button>
+            </div>
+            <div id="search-results" class="search-results">
+                <!-- Results injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <div id="scroll-progress-container" class="scroll-progress-container">
+        <div id="scroll-progress-bar" class="scroll-progress-bar"></div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-overlay" aria-hidden="true">
+        <div id="settings-panel">
+            <div class="settings-header">
+                <h2>Nastavitve</h2>
+                <button id="close-settings">&times;</button>
+            </div>
+
+            <!-- Bližnjici za priljubljene in zaznamke -->
+            <div class="settings-nav-shortcuts">
+                <button id="settings-go-favorites" class="nav-shortcut-btn" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"
+                        fill="oklch(66.89% 0.2189 20.91)" aria-hidden="true">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    <span>Priljubljene</span>
+                </button>
+                <button id="settings-go-bookmarks" class="nav-shortcut-btn" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"
+                        fill="oklch(60% 0.15 250)" aria-hidden="true">
+                        <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z" />
+                    </svg>
+                    <span>Zaznamki</span>
+                </button>
+            </div>
+
+
+            <!-- O PROJEKTU -->
+            <div class="settings-section static">
+                <h3 class="static-title">O projektu</h3>
+                <p class="about-text">Zbirka slovenske književnosti v digitalni obliki.</p>
+                <p class="about-text">Podpri <a href="https://mihaknific.github.io/" target="_blank">avtorja</a>.</p>
+                <div class="support-links">
+                    <a href="https://buymeacoffee.com/mihaknific" target="_blank" rel="noopener noreferrer"
+                        class="support-btn bmc" role="link" aria-label="Podprite z nakupom kave na Buy Me a Coffee">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 39" fill="none" aria-hidden="true">
+                            <path
+                                d="M14.3206 17.9122C12.9282 18.5083 11.3481 19.1842 9.30013 19.1842C8.44341 19.1824 7.59085 19.0649 6.76562 18.8347L8.18203 33.3768C8.23216 33.9847 8.50906 34.5514 8.95772 34.9645C9.40638 35.3776 9.994 35.6069 10.6039 35.6068C10.6039 35.6068 12.6122 35.7111 13.2823 35.7111C14.0036 35.7111 16.1662 35.6068 16.1662 35.6068C16.776 35.6068 17.3635 35.3774 17.8121 34.9643C18.2606 34.5512 18.5374 33.9846 18.5876 33.3768L20.1046 17.3073C19.4267 17.0757 18.7425 16.9219 17.9712 16.9219C16.6372 16.9214 15.5623 17.3808 14.3206 17.9122Z"
+                                fill="currentColor" />
+                            <path
+                                d="M26.6584 10.3609L26.4451 9.28509C26.2537 8.31979 25.8193 7.40768 24.8285 7.05879C24.5109 6.94719 24.1505 6.89922 23.907 6.66819C23.6634 6.43716 23.5915 6.07837 23.5351 5.74565C23.4308 5.13497 23.3328 4.52377 23.2259 3.91413C23.1336 3.39002 23.0606 2.80125 22.8202 2.32042C22.5073 1.6748 21.858 1.29723 21.2124 1.04743C20.8815 0.923938 20.5439 0.819467 20.2012 0.734533C18.5882 0.308987 16.8922 0.152536 15.2328 0.0633591C13.241 -0.046547 11.244 -0.0134338 9.25692 0.162444C7.77794 0.296992 6.22021 0.459701 4.81476 0.971295C4.30108 1.15851 3.77175 1.38328 3.38115 1.78015C2.90189 2.26775 2.74544 3.02184 3.09537 3.62991C3.34412 4.06172 3.7655 4.3668 4.21242 4.56862C4.79457 4.82867 5.40253 5.02654 6.02621 5.15896C7.76282 5.54279 9.56148 5.6935 11.3356 5.75765C13.302 5.83701 15.2716 5.77269 17.2286 5.56521C17.7126 5.51202 18.1956 5.44822 18.6779 5.37382C19.2458 5.28673 19.6103 4.54411 19.4429 4.02678C19.2427 3.40828 18.7045 3.16839 18.0959 3.26173C18.0062 3.27581 17.917 3.28885 17.8273 3.30189L17.7626 3.31128C17.5565 3.33735 17.3503 3.36169 17.1441 3.38429C16.7182 3.43018 16.2913 3.46773 15.8633 3.49693C14.9048 3.56368 13.9437 3.59445 12.9831 3.59602C12.0391 3.59602 11.0947 3.56942 10.1529 3.50736C9.72314 3.4792 9.29447 3.44339 8.86684 3.39993C8.67232 3.37959 8.47832 3.35821 8.28432 3.33422L8.0997 3.31076L8.05955 3.30502L7.86816 3.27738C7.47703 3.21845 7.0859 3.15066 6.69895 3.06878C6.6599 3.06012 6.62498 3.03839 6.59994 3.0072C6.57491 2.976 6.56127 2.9372 6.56127 2.8972C6.56127 2.85721 6.57491 2.81841 6.59994 2.78721C6.62498 2.75602 6.6599 2.73429 6.69895 2.72563H6.70625C7.04158 2.65418 7.37951 2.59317 7.71849 2.53997C7.83148 2.52224 7.94482 2.50486 8.05851 2.48782H8.06164C8.27389 2.47374 8.48718 2.43567 8.69839 2.41064C10.536 2.2195 12.3845 2.15434 14.231 2.2156C15.1275 2.24168 16.0234 2.29435 16.9157 2.38509C17.1076 2.40491 17.2985 2.42577 17.4894 2.44923C17.5624 2.4581 17.6359 2.46853 17.7094 2.47739L17.8575 2.49878C18.2893 2.56309 18.7189 2.64115 19.1462 2.73293C19.7793 2.87061 20.5923 2.91546 20.8739 3.60906C20.9636 3.82913 21.0043 4.07371 21.0538 4.30474L21.1169 4.59939C21.1186 4.60467 21.1198 4.61008 21.1206 4.61555C21.2697 5.31089 21.4191 6.00623 21.5686 6.70157C21.5795 6.75293 21.5798 6.80601 21.5693 6.85748C21.5589 6.90895 21.5379 6.95771 21.5078 7.00072C21.4776 7.04373 21.4389 7.08007 21.3941 7.10747C21.3493 7.13487 21.2993 7.15274 21.2473 7.15997H21.2431L21.1519 7.17248L21.0617 7.18448C20.7759 7.22168 20.4897 7.25644 20.2033 7.28878C19.639 7.3531 19.0739 7.40872 18.5079 7.45566C17.3831 7.54918 16.2562 7.61055 15.127 7.63975C14.5516 7.65505 13.9763 7.66217 13.4013 7.66113C11.1124 7.65933 8.82553 7.5263 6.55188 7.2627C6.30574 7.2335 6.05959 7.20221 5.81344 7.1704C6.00431 7.19491 5.67472 7.15162 5.60797 7.14224C5.45152 7.12033 5.29506 7.09756 5.13861 7.07392C4.61346 6.99517 4.09144 6.89817 3.56733 6.81317C2.9337 6.70887 2.32771 6.76102 1.75458 7.07392C1.28413 7.33136 0.903361 7.72614 0.663078 8.20558C0.415886 8.71665 0.342354 9.2731 0.231796 9.82224C0.121237 10.3714 -0.0508594 10.9622 0.0143284 11.526C0.154613 12.7427 1.00518 13.7314 2.22863 13.9525C3.37959 14.1611 4.5368 14.3301 5.69714 14.474C10.2552 15.0323 14.8601 15.0991 19.4325 14.6733C19.8048 14.6385 20.1767 14.6006 20.548 14.5596C20.6639 14.5468 20.7813 14.5602 20.8914 14.5987C21.0016 14.6372 21.1017 14.6998 21.1845 14.782C21.2673 14.8642 21.3307 14.9639 21.37 15.0737C21.4093 15.1836 21.4235 15.3009 21.4116 15.4169L21.2958 16.5423C21.0625 18.8164 20.8292 21.0903 20.596 23.3641C20.3526 25.7519 20.1077 28.1395 19.8612 30.5269C19.7916 31.1993 19.7221 31.8715 19.6526 32.5436C19.5858 33.2054 19.5764 33.888 19.4507 34.542C19.2526 35.5704 18.5564 36.2019 17.5405 36.433C16.6098 36.6448 15.659 36.756 14.7045 36.7646C13.6464 36.7704 12.5888 36.7234 11.5307 36.7292C10.4011 36.7354 9.01755 36.6311 8.1456 35.7905C7.37951 35.052 7.27365 33.8958 7.16935 32.8961C7.03028 31.5725 6.89243 30.2491 6.75579 28.9259L5.98918 21.568L5.49324 16.8072C5.48489 16.7285 5.47655 16.6508 5.46873 16.5715C5.40927 16.0036 5.0072 15.4477 4.37357 15.4764C3.83121 15.5004 3.21479 15.9614 3.27841 16.5715L3.64607 20.1011L4.40642 27.4021C4.62302 29.4759 4.8391 31.5501 5.05465 33.6247C5.09637 34.022 5.13548 34.4205 5.17929 34.8179C5.41762 36.9894 7.07599 38.1596 9.12967 38.4892C10.3291 38.6822 11.5578 38.7218 12.775 38.7416C14.3353 38.7667 15.9113 38.8267 17.4461 38.544C19.7203 38.1268 21.4267 36.6082 21.6702 34.2526C21.7398 33.5725 21.8093 32.8923 21.8788 32.2119C22.11 29.9618 22.3409 27.7115 22.5714 25.4611L23.3255 18.1079L23.6713 14.7379C23.6885 14.5708 23.759 14.4137 23.8725 14.2898C23.986 14.1659 24.1363 14.0819 24.3012 14.0501C24.9515 13.9233 25.5732 13.7069 26.0357 13.212C26.7721 12.424 26.9187 11.3967 26.6584 10.3609ZM2.19525 11.0879C2.20516 11.0832 2.18691 11.1682 2.17909 11.2079C2.17752 11.1479 2.18065 11.0947 2.19525 11.0879ZM2.25836 11.5761C2.26357 11.5724 2.27921 11.5933 2.29538 11.6183C2.27087 11.5953 2.25523 11.5781 2.25783 11.5761H2.25836ZM2.32041 11.6579C2.34284 11.696 2.35483 11.72 2.32041 11.6579V11.6579ZM2.44505 11.7591H2.44818C2.44818 11.7627 2.45392 11.7664 2.456 11.7701C2.45255 11.766 2.4487 11.7624 2.44453 11.7591H2.44505ZM24.271 11.6079C24.0373 11.83 23.6853 11.9333 23.3375 11.9849C19.4366 12.5638 15.479 12.8569 11.5354 12.7275C8.71299 12.6311 5.92035 12.3176 3.12613 11.9229C2.85234 11.8843 2.55561 11.8342 2.36735 11.6324C2.01273 11.2517 2.18691 10.4851 2.27921 10.0251C2.3637 9.60373 2.52536 9.04207 3.02653 8.9821C3.80878 8.89031 4.71724 9.22042 5.49115 9.33776C6.4229 9.47996 7.35813 9.59382 8.29683 9.67935C12.303 10.0444 16.3765 9.98755 20.3649 9.45354C21.0919 9.35584 21.8163 9.24233 22.538 9.11299C23.181 8.99774 23.8939 8.78132 24.2825 9.44728C24.5489 9.90098 24.5844 10.508 24.5432 11.0207C24.5305 11.244 24.4329 11.4541 24.2705 11.6079H24.271Z"
+                                fill="currentColor" />
+                        </svg>
+                        Buy Me a Coffee
+                    </a>
+                    <a href="https://ko-fi.com/mihaknific" target="_blank" rel="noopener noreferrer"
+                        class="support-btn kofi" role="link" aria-label="Podprite na Ko-fi">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 241 194" fill="none" aria-hidden="true">
+                            <mask id="mask-kofi" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-1" y="0"
+                                width="242" height="194">
+                                <path d="M240.469 0.959H-0.006V193.918H240.469V0.959Z" fill="white" />
+                            </mask>
+                            <g mask="url(#mask-kofi)">
+                                <path
+                                    d="M96.1344 193.911C61.1312 193.911 32.6597 178.256 15.9721 149.829C1.19788 124.912 -0.00586 97.923 -0.00586 67.766C-0.00586 49.888 5.37293 34.322 15.5413 22.747C24.8861 12.116 38.1271 5.229 52.8317 3.354C70.2858 1.143 91.9848 0.959 114.545 0.959C151.259 0.959 161.63 1.409 176.075 2.853C195.29 4.76 211.458 11.932 222.824 23.596C234.368 35.443 240.469 51.262 240.469 69.363V73C240.469 103.885 219.821 129.733 191.046 136.759C188.898 141.827 186.237 146.871 183.089 151.837L183.006 151.964C172.869 167.632 149.042 193.918 103.401 193.918H96.128L96.1344 193.911Z"
+                                    fill="white" />
+                                <path
+                                    d="M174.568 17.977C160.927 16.615 151.38 16.159 114.552 16.159C90.908 16.159 70.901 16.387 54.764 18.433C33.395 21.164 15.206 37.529 15.206 67.767C15.206 98.007 16.796 121.422 29.074 142.107C42.943 165.751 66.13 178.707 96.141 178.707H103.414C140.242 178.707 160.25 159.156 170.253 143.698C174.574 136.874 177.754 130.058 179.801 123.234C205.947 120.96 225.27 99.362 225.27 72.994V69.358C225.27 40.943 206.631 21.164 174.574 17.977H174.568Z"
+                                    fill="white" />
+                                <path
+                                    d="M15.198 67.767C15.198 37.529 33.387 21.164 54.756 18.433C70.899 16.387 90.906 16.159 114.544 16.159C151.372 16.159 160.919 16.615 174.559 17.977C206.617 21.158 225.255 40.937 225.255 69.358V72.994C225.255 99.369 205.932 120.966 179.786 123.234C177.74 130.058 174.559 136.874 170.238 143.698C160.235 159.156 140.228 178.707 103.4 178.707H96.126C66.116 178.707 42.928 165.751 29.06 142.107C16.781 121.422 15.191 98.456 15.191 67.767"
+                                    fill="#202020" />
+                                <path
+                                    d="M32.247 67.99C32.247 97.317 34.065 116.184 43.613 133.689C54.523 153.924 74.302 161.653 96.812 161.653H103.857C133.411 161.653 147.736 147.329 155.693 134.829C159.558 128.462 162.966 121.417 164.784 112.547L166.147 106.864H174.332C192.521 106.864 208.208 92.09 208.208 73.217V69.808C208.208 48.667 195.024 37.523 172.058 34.799C159.102 33.665 151.372 33.208 114.538 33.208C89.76 33.208 72.027 33.436 58.615 35.483C39.748 38.213 32.241 48.895 32.241 67.99"
+                                    fill="white" />
+                                <path
+                                    d="M166.158 83.68C166.158 86.411 168.204 88.457 171.841 88.457C183.435 88.457 189.802 81.862 189.802 70.952C189.802 60.043 183.435 53.22 171.841 53.22C168.204 53.22 166.158 55.266 166.158 57.996V83.687V83.68Z"
+                                    fill="#202020" />
+                                <path
+                                    d="M54.532 82.32C54.532 95.732 62.033 107.326 71.581 116.424C77.948 122.562 87.952 128.93 94.769 133.022C96.815 134.157 98.861 134.841 101.136 134.841C103.866 134.841 106.134 134.157 107.959 133.022C114.782 128.93 124.779 122.562 130.919 116.424C140.694 107.332 148.195 95.738 148.195 82.32C148.195 67.767 137.286 54.812 121.599 54.812C112.28 54.812 105.912 59.588 101.136 66.177C96.815 59.582 90.226 54.812 80.9 54.812C64.986 54.812 54.526 67.767 54.526 82.32"
+                                    fill="#FF5A16" />
+                            </g>
+                        </svg>
+                        Ko-fi
+                    </a>
+                    <a href="https://www.patreon.com/c/Slovenska_knjizevnost" target="_blank" rel="noopener noreferrer"
+                        class="support-btn patreon" role="link" aria-label="Postanite podpornik na Patreon-u">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                            aria-hidden="true">
+                            <path
+                                d="M15.386.524c-4.764 0-8.64 3.876-8.64 8.64 0 4.75 3.876 8.613 8.64 8.613 4.75 0 8.614-3.864 8.614-8.613C24 4.4 20.136.524 15.386.524M.003 23.537h4.22V.524H.003" />
+                        </svg>
+                        Patreon
+                    </a>
+                </div>
+            </div>
+
+            <!-- TEMA -->
+            <div class="settings-section" data-section="appearance">
+                <button class="section-toggle" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon"
+                        aria-hidden="true">
+                        <circle cx="13.5" cy="6.5" r="2.5"></circle>
+                        <path
+                            d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.21-.64-1.67-.08-.09-.13-.21-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-5.17-4.49-9-10-9z">
+                        </path>
+                        <circle cx="7.5" cy="11.5" r="1.5"></circle>
+                        <circle cx="10.5" cy="16" r="1.5"></circle>
+                        <circle cx="16.5" cy="11.5" r="1.5"></circle>
+                    </svg> Barvna shema
+                    <span class="toggle-chevron">▾</span>
+                </button>
+                <div class="section-content">
+                    <div class="setting-group">
+                        <div class="segmented-control font-picker" role="group">
+                            <button data-setting="theme" data-value="light" class="active">Svetla</button>
+                            <button data-setting="theme" data-value="dark">Temna</button>
+                            <button data-setting="theme" data-value="sepia">Sepija</button>
+                            <button data-setting="theme" data-value="nord">Nord</button>
+                            <button data-setting="theme" data-value="protanopia">Protanopija</button>
+                            <button data-setting="theme" data-value="tritanopia">Tritanopija</button>
+                            <button data-setting="theme" data-value="custom">Po meri</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRIKAZ VSEBINE -->
+            <div class="settings-section" data-section="display">
+                <button class="section-toggle" aria-expanded="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon"
+                        aria-hidden="true">
+                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                        <line x1="9" y1="20" x2="15" y2="20"></line>
+                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                    </svg> Prikaz vsebine
+                    <span class="toggle-chevron">▾</span>
+                </button>
+                <div class="section-content">
+                    <!-- Splošno -->
+                    <div class="settings-sub-group">
+                        <div class="setting-group">
+                            <label for="content-width-slider">Širina vsebine</label>
+                            <div class="slider-control">
+                                <button class="stepper-btn" data-width-target="contentWidth" data-delta="-5"
+                                    aria-label="Zmanjšaj">−</button>
+                                <input type="range" id="content-width-slider" name="content-width" min="20" max="100"
+                                    value="100" step="5">
+                                <button class="stepper-btn" data-width-target="contentWidth" data-delta="5"
+                                    aria-label="Povečaj">+</button>
+                                <span id="content-width-value" class="slider-value">100%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Naslovi -->
+                    <div class="settings-sub-group">
+                        <h4 class="settings-sub-header">Naslovi</h4>
+                        <div class="setting-group">
+                            <label for="headingFont">Pisava naslovov</label>
+                            <select id="headingFont" name="headingFont" class="font-dropdown"
+                                data-setting="headingFont">
+                                <option value="cinzel">Cinzel</option>
+                                <option value="georgia">Georgia</option>
+                                <option value="roboto-mono">Roboto Mono</option>
+                                <option value="lora">Lora</option>
+                                <option value="playfair">Playfair Display</option>
+                                <option value="eb-garamond">EB Garamond</option>
+                                <option value="open-sans">Open Sans</option>
+                                <option value="inter">Inter</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label for="heading-size-slider">Velikost naslovov</label>
+                            <div class="slider-control">
+                                <button class="stepper-btn" data-size-target="headingFontSize" data-delta="-1"
+                                    aria-label="Zmanjšaj">−</button>
+                                <input type="range" id="heading-size-slider" name="heading-size" min="20" max="60"
+                                    value="32" step="1">
+                                <button class="stepper-btn" data-size-target="headingFontSize" data-delta="1"
+                                    aria-label="Povečaj">+</button>
+                                <span id="heading-size-value" class="slider-value">32px</span>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label for="heading-lh-slider">Razmik vrstic naslovov</label>
+                            <div class="slider-control">
+                                <button class="stepper-btn" data-lh-target="headingLineHeight" data-delta="-0.1"
+                                    aria-label="Zmanjšaj">−</button>
+                                <input type="range" id="heading-lh-slider" name="heading-lh" min="1.0" max="2.5"
+                                    value="1.3" step="0.1">
+                                <button class="stepper-btn" data-lh-target="headingLineHeight" data-delta="0.1"
+                                    aria-label="Povečaj">+</button>
+                                <span id="heading-lh-value" class="slider-value">1.3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Besedilo -->
+                    <div class="settings-sub-group">
+                        <h4 class="settings-sub-header">Besedilo</h4>
+                        <div class="setting-group">
+                            <label for="bodyFont">Pisava besedila</label>
+                            <select id="bodyFont" name="bodyFont" class="font-dropdown" data-setting="bodyFont">
+                                <option value="cinzel">Cinzel</option>
+                                <option value="georgia">Georgia</option>
+                                <option value="roboto-mono">Roboto Mono</option>
+                                <option value="lora">Lora</option>
+                                <option value="playfair">Playfair Display</option>
+                                <option value="eb-garamond">EB Garamond</option>
+                                <option value="open-sans">Open Sans</option>
+                                <option value="inter">Inter</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label for="body-size-slider">Velikost besedila</label>
+                            <div class="slider-control">
+                                <button class="stepper-btn" data-size-target="fontSize" data-delta="-1"
+                                    aria-label="Zmanjšaj">−</button>
+                                <input type="range" id="body-size-slider" name="body-size" min="16" max="40" value="26"
+                                    step="1">
+                                <button class="stepper-btn" data-size-target="fontSize" data-delta="1"
+                                    aria-label="Povečaj">+</button>
+                                <span id="font-size-value" class="slider-value">26px</span>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label for="content-lh-slider">Razmik vrstic besedila</label>
+                            <div class="slider-control">
+                                <button class="stepper-btn" data-lh-target="contentLineHeight" data-delta="-0.1"
+                                    aria-label="Zmanjšaj">−</button>
+                                <input type="range" id="content-lh-slider" name="content-lh" min="1.0" max="2.5"
+                                    value="1.5" step="0.1">
+                                <button class="stepper-btn" data-lh-target="contentLineHeight" data-delta="0.1"
+                                    aria-label="Povečaj">+</button>
+                                <span id="content-lh-value" class="slider-value">1.5</span>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <span id="label-align">Poravnava</span>
+                            <div class="segmented-control" role="group" aria-labelledby="label-align">
+                                <button data-setting="align" data-value="left">Levo</button>
+                                <button data-setting="align" data-value="center" class="active">Sredina</button>
+                                <button data-setting="align" data-value="right">Desno</button>
+                                <button data-setting="align" data-value="justify">Obojest.</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="reset-section-btn" data-reset="display">↺ Ponastavi prikaz</button>
+                </div>
+            </div>
+
+            <!-- VRSTICA Z UKREPI -->
+            <div class="settings-section" data-section="dock">
+                <button class="section-toggle" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon"
+                        aria-hidden="true">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg> Vrstica z ukrepi
+                    <span class="toggle-chevron">▾</span>
+                </button>
+                <div class="section-content">
+                    <div class="setting-group toggle-setting">
+                        <label for="showDock">Prikaži vrstico z ukrepi</label>
+                        <label for="showDock" class="modern-switch">
+                            <input type="checkbox" id="showDock" data-setting="showDock" class="setting-checkbox"
+                                checked>
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="dock-settings-grid">
+                        <label for="showDockFav" class="dock-toggle-card">
+                            <input type="checkbox" id="showDockFav" name="showDockFav" data-setting="showDockFav"
+                                class="setting-checkbox" checked>
+                            <span class="dock-card-status"></span>
+                            <span class="dock-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="currentColor" aria-label="Priljubljene" role="img">
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg></span>
+                            <span class="dock-card-label">Priljubljene</span>
+                        </label>
+                        <label for="showDockShare" class="dock-toggle-card">
+                            <input type="checkbox" id="showDockShare" name="showDockShare" data-setting="showDockShare"
+                                class="setting-checkbox" checked>
+                            <span class="dock-card-status"></span>
+                            <span class="dock-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-label="Deli" role="img">
+                                    <circle cx="18" cy="5" r="3"></circle>
+                                    <circle cx="6" cy="12" r="3"></circle>
+                                    <circle cx="18" cy="19" r="3"></circle>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                </svg></span>
+                            <span class="dock-card-label">Deli</span>
+                        </label>
+                        <label for="showDockTTS" class="dock-toggle-card">
+                            <input type="checkbox" id="showDockTTS" name="showDockTTS" data-setting="showDockTTS"
+                                class="setting-checkbox" checked>
+                            <span class="dock-card-status"></span>
+                            <span class="dock-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="currentColor" aria-label="Branje" role="img">
+                                    <path
+                                        d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg></span>
+                            <span class="dock-card-label">Beri</span>
+                        </label>
+                        <label for="showDockBookmark" class="dock-toggle-card">
+                            <input type="checkbox" id="showDockBookmark" name="showDockBookmark"
+                                data-setting="showDockBookmark" class="setting-checkbox" checked>
+                            <span class="dock-card-status"></span>
+                            <span class="dock-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" aria-label="Zaznamek" role="img">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                </svg></span>
+                            <span class="dock-card-label">Zaznamek</span>
+                        </label>
+                    </div>
+                    <button class="reset-section-btn" data-reset="dock">↺ Ponastavi vrstico</button>
+                </div>
+            </div>
+
+            <!-- BARVE PO MERI (Dynamic) -->
+            <div id="custom-colors-section" class="settings-section" data-section="custom-colors" hidden>
+                <button class="section-toggle" aria-expanded="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon"
+                        aria-hidden="true">
+                        <circle cx="13.5" cy="6.5" r="2.5"></circle>
+                        <path
+                            d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.21-.64-1.67-.08-.09-.13-.21-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-5.17-4.49-9-10-9z">
+                        </path>
+                        <circle cx="7.5" cy="11.5" r="1.5"></circle>
+                        <circle cx="10.5" cy="16" r="1.5"></circle>
+                        <circle cx="16.5" cy="11.5" r="1.5"></circle>
+                    </svg> Barve po meri
+                    <span class="toggle-chevron">▾</span>
+                </button>
+                <div class="section-content">
+                    <div id="custom-colors" class="custom-colors-group">
+                        <div class="color-row">
+                            <label for="customBg">Ozadje</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="customBg" name="customBg" data-color="customBg" value="#ffffff">
+                                <span class="color-hex">#ffffff</span>
+                            </div>
+                        </div>
+                        <div class="color-row">
+                            <label for="customHeadingColor">Naslovi</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="customHeadingColor" name="customHeadingColor"
+                                    data-color="customHeadingColor" value="#1a1a1a">
+                                <span class="color-hex">#1a1a1a</span>
+                            </div>
+                        </div>
+                        <div class="color-row">
+                            <label for="customTextColor">Besedilo</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="customTextColor" name="customTextColor"
+                                    data-color="customTextColor" value="#333333">
+                                <span class="color-hex">#333333</span>
+                            </div>
+                        </div>
+                        <div class="color-row">
+                            <label for="customIconColor">Ikone</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="customIconColor" name="customIconColor"
+                                    data-color="customIconColor" value="#000000">
+                                <span class="color-hex">#000000</span>
+                            </div>
+                        </div>
+                        <div class="color-row">
+                            <label for="customAccentColor">Poudarek</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="customAccentColor" name="customAccentColor"
+                                    data-color="customAccentColor" value="#8e735b">
+                                <span class="color-hex">#8e735b</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="reset-section-btn" data-reset="appearance">↺ Ponastavi barve</button>
+                </div>
+            </div>
+
+            <!-- UPRAVLJANJE PODATKOV -->
+            <div class="settings-section" data-section="data">
+                <button class="section-toggle" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon"
+                        aria-hidden="true">
+                        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                    </svg> Upravljanje podatkov
+                    <span class="toggle-chevron">▾</span>
+                </button>
+                <div class="section-content">
+                    <div class="settings-actions">
+                        <div class="danger-zone">
+                            <button id="clear-all-favorites" class="reset-all-btn danger-subtle">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"
+                                    fill="currentColor">
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                                Izbriši vse priljubljene
+                            </button>
+                            <button id="clear-all-bookmarks" class="reset-all-btn danger-subtle">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"
+                                    fill="currentColor">
+                                    <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z" />
+                                </svg>
+                                Izbriši vse zaznamke
+                            </button>
+                        </div>
+                        <button id="reset-all-settings" class="reset-all-btn">Ponastavi vse nastavitve</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NAVODILA ZA NAMESTITEV -->
+            <div class="settings-section" data-section="installation">
+                <button class="section-toggle" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon"
+                        aria-hidden="true">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg> Namestitev in ikona
+                    <span class="toggle-chevron">▾</span>
+                </button>
+                <div class="section-content">
+                    <div class="installation-guide">
+                        <div class="guide-item">
+                            <h4>Računalnik</h4>
+                            <p>Aplikacijo najdete v **Start meniju** ali na **namizju**. Če ikone še nimate, kliknite spodnji gumb.</p>
+                        </div>
+                        <div class="guide-item">
+                            <h4>Telefon (Android/iOS)</h4>
+                            <p>V brskalniku izberite **"Dodaj na začetni zaslon"** (v meniju desno zgoraj ali preko gumba Deli).</p>
+                        </div>
+                    </div>
+                    <div id="pwa-install-section" class="pwa-install-section" hidden>
+                        <button id="pwa-install-btn" class="pwa-install-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Namesti na ta računalnik
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-footer">
+                <span id="app-version" class="version-label"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Share Modal -->
+    <div id="share-modal" class="modal-overlay hidden" aria-hidden="true">
+        <div class="share-modal-content">
+            <div class="share-header">
+                <h3>Deli vsebino</h3>
+                <button id="close-share" class="close-btn" aria-label="Zapri">&times;</button>
+            </div>
+
+            <div class="share-options-scroll">
+                <div class="share-options-row">
+                    <!-- System share (native) - first for best mobile experience -->
+                    <button class="share-btn" data-action="system">
+                        <div class="share-icon bg-native">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                fill="white" aria-label="Sistemsko" role="img">
+                                <path
+                                    d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z" />
+                            </svg>
+                        </div>
+                        <span>Deli...</span>
+                    </button>
+                    <!-- Core sharing options -->
+                    <button class="share-btn" data-action="whatsapp">
+                        <div class="share-icon bg-wa">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="24" height="24"
+                                fill="white" aria-label="WhatsApp" role="img">
+                                <path
+                                    d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+                            </svg>
+                        </div>
+                        <span>WhatsApp</span>
+                    </button>
+                    <button class="share-btn" data-action="viber">
+                        <div class="share-icon bg-viber">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="24" height="24"
+                                fill="white" aria-label="Viber" role="img">
+                                <path
+                                    d="M30 15.3785C30 6.20699 26.7692 2 16 2C5.23077 2 2 6.20699 2 15.3785C2 21.9055 3.63629 25.9182 8.46154 27.6895V30.7774C8.46154 31.9141 9.88769 32.4332 10.6264 31.5656L13.1164 28.6411C14.0113 28.7185 14.9713 28.7569 16 28.7569C26.7692 28.7569 30 24.5499 30 15.3785ZM13.7113 26.5316C14.4251 26.5882 15.1872 26.6164 16 26.6164C25.1124 26.6164 27.8462 23.0825 27.8462 15.3785C27.8462 7.67443 25.1124 4.14055 16 4.14055C6.88757 4.14055 4.15385 7.67443 4.15385 15.3785C4.15385 20.8239 5.51965 24.1859 9.53846 25.6891V30.2639C9.53846 30.6627 10.0389 30.8449 10.2981 30.5404L13.7113 26.5316Z" />
+                            </svg>
+                        </div>
+                        <span>Viber</span>
+                    </button>
+                    <button class="share-btn" data-action="messenger">
+                        <div class="share-icon bg-messenger">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="24" height="24"
+                                fill="white" aria-label="Messenger" role="img">
+                                <path
+                                    d="M0 7.76C0 3.301 3.493 0 8 0s8 3.301 8 7.76-3.493 7.76-8 7.76c-.81 0-1.586-.107-2.316-.307a.64.64 0 0 0-.427.03l-1.588.702a.64.64 0 0 1-.898-.566l-.044-1.423a.64.64 0 0 0-.215-.456C.956 12.108 0 10.092 0 7.76m5.546-1.459-2.35 3.728c-.225.358.214.761.551.506l2.525-1.916a.48.48 0 0 1 .578-.002l1.869 1.402a1.2 1.2 0 0 0 1.735-.32l2.35-3.728c.226-.358-.214-.761-.551-.506L9.728 7.381a.48.48 0 0 1-.578.002L7.281 5.98a1.2 1.2 0 0 0-1.735.32z" />
+                            </svg>
+                        </div>
+                        <span>Messenger</span>
+                    </button>
+                    <button class="share-btn" data-action="telegram">
+                        <div class="share-icon bg-telegram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="24" height="24"
+                                fill="white" aria-label="Telegram" role="img">
+                                <path
+                                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09" />
+                            </svg>
+                        </div>
+                        <span>Telegram</span>
+                    </button>
+                    <button class="share-btn" data-action="signal">
+                        <div class="share-icon bg-signal">
+                            <svg fill="none" height="160" viewBox="0 0 160 160" width="160"
+                                xmlns="http://www.w3.org/2000/svg" aria-label="Signal" role="img">
+                                <g fill="#ffffff">
+                                    <path
+                                        d="m80 0c4.1505 0 8.2271.31607 12.2072.925452l-1.1444 7.413248c-3.6069-.55226-7.3014-.8387-11.0628-.8387-3.7612 0-7.4555.28641-11.0623.83862l-1.1444-7.413245c3.9799-.609332 8.0564-.925375 12.2067-.925375z" />
+                                    <path
+                                        d="m98.9849 2.26619-1.7798 7.28755c7.3099 1.77896 14.1849 4.66606 20.4389 8.47306l3.895-6.411c-6.901-4.20091-14.488-7.38658-22.5541-9.34961z" />
+                                    <path
+                                        d="m127.279 15.4591-4.432 6.0507c5.977 4.3861 11.257 9.6664 15.643 15.6437l6.051-4.4324c-4.84-6.5957-10.666-12.4222-17.262-17.262z" />
+                                    <path
+                                        d="m148.384 38.4618-6.411 3.8942c3.807 6.2541 6.694 13.1299 8.473 20.4395l7.288-1.7798c-1.963-8.0657-5.149-15.6528-9.35-22.5539z" />
+                                    <path
+                                        d="m159.075 67.7934-7.414 1.1444c.553 3.6067.839 7.301.839 11.0622 0 3.7614-.286 7.4559-.839 11.0628l7.414 1.1444c.609-3.9801.925-8.0567.925-12.2072 0-4.1503-.316-8.2267-.925-12.2066z" />
+                                    <path
+                                        d="m141.973 117.645c3.807-6.255 6.694-13.13 8.473-20.44l7.288 1.7798c-1.963 8.0662-5.149 15.6532-9.35 22.5542z" />
+                                    <path
+                                        d="m138.49 122.847 6.051 4.432c-4.84 6.596-10.666 12.422-17.262 17.262l-4.433-6.051c5.978-4.386 11.258-9.666 15.644-15.643z" />
+                                    <path
+                                        d="m117.644 141.973 3.894 6.411c-6.901 4.201-14.488 7.387-22.5537 9.35l-1.7798-7.288c7.3095-1.779 14.1855-4.666 20.4395-8.473z" />
+                                    <path
+                                        d="m91.0622 151.661 1.1445 7.414c-3.9799.609-8.0564.925-12.2067.925-4.1505 0-8.2272-.316-12.2073-.925l1.1442-7.413c3.6054.552 7.2997.838 11.0631.838 3.7612 0 7.4555-.286 11.0622-.839z" />
+                                    <path
+                                        d="m62.7945 150.448-1.7794 7.286c-6.0589-1.475-11.8477-3.639-17.2785-6.406l-7.5927 1.772-1.7042-7.304 10.2604-2.394 2.4408 1.243c4.9187 2.506 10.1623 4.467 15.6536 5.803z" />
+                                    <path
+                                        d="m28.1097 147.273 1.7042 7.304-13.0145 3.036c-8.66079 2.021-16.433718-5.752-14.41286-14.412l3.03673-13.015 7.30383 1.704-3.03675 13.015c-.75782 3.248 2.15705 6.162 5.40485 5.405z" />
+                                    <path
+                                        d="m14.2041 125.56-7.30383-1.704 1.77163-7.593c-2.76664-5.431-4.93123-11.22-6.40585-17.2787l7.28586-1.7794c1.33599 5.4911 3.29709 10.7351 5.80279 15.6541l1.2435 2.441z" />
+                                    <path
+                                        d="m8.33759 91.0624-7.412228 1.1442c-.609324-3.9799-.925362-8.0563-.925362-12.2066 0-4.1505.316067-8.2271.925446-12.2072l7.413244 1.1444c-.55225 3.607-.83869 7.3014-.83869 11.0628 0 3.7631.28613 7.4572.83759 11.0624z" />
+                                    <path
+                                        d="m9.55373 62.795-7.28755-1.7798c1.96302-8.0657 5.1487-15.6528 9.34962-22.5539l6.411 3.8942c-3.807 6.2541-6.6941 13.1299-8.47307 20.4395z" />
+                                    <path
+                                        d="m21.5098 37.1531-6.0507-4.4324c4.8398-6.5957 10.6663-12.4221 17.262-17.2619l4.4324 6.0507c-5.9773 4.3861-11.2576 9.6663-15.6437 15.6436z" />
+                                    <path
+                                        d="m42.356 18.0266-3.8943-6.4111c6.9011-4.20082 14.4882-7.38645 22.554-9.34944l1.7798 7.28755c-7.3096 1.77899-14.1854 4.66589-20.4395 8.47299z" />
+                                    <path
+                                        d="m145 80c0 35.899-29.101 65-65 65-11.3866 0-22.0893-2.928-31.3965-8.072-.8961-.495-1.9417-.658-2.9389-.426l-28.9134 6.747 6.7465-28.914c.2326-.997.0692-2.043-.426-2.939-5.1439-9.307-8.0717-20.0095-8.0717-31.396 0-35.8985 29.1015-65 65-65 35.899 0 65 29.1015 65 65z" />
+                                </g>
+                            </svg>
+                        </div>
+                        <span>Signal</span>
+                    </button>
+                    <button class="share-btn" data-action="discord">
+                        <div class="share-icon bg-discord">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                fill="white" aria-label="Discord" role="img">
+                                <path
+                                    d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z" />
+                            </svg>
+                        </div>
+                        <span>Discord</span>
+                    </button>
+                    <button class="share-btn" data-action="email">
+                        <div class="share-icon bg-email">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                fill="white" aria-label="Email" role="img">
+                                <path
+                                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                            </svg>
+                        </div>
+                        <span>E-pošta</span>
+                    </button>
+                    <button class="share-btn" data-action="sms">
+                        <div class="share-icon bg-sms">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                fill="white" aria-label="SMS" role="img">
+                                <path
+                                    d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 11H7V9h2v2zm4 0h-2V9h2v2zm4 0h-2V9h2v2z" />
+                            </svg>
+                        </div>
+                        <span>SMS</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="share-text-option toggle-setting">
+                <label for="share-include-text">Pri kopiranju vključi tudi celotno besedilo pesmi</label>
+                <label for="share-include-text" class="modern-switch">
+                    <input type="checkbox" id="share-include-text" name="share-include-text">
+                    <span class="switch-slider"></span>
+                </label>
+            </div>
+
+            <div class="share-link-container">
+                <label for="share-link-input" class="sr-only">Povezava za deljenje</label>
+                <input type="text" id="share-link-input" name="share-link" readonly>
+                <button id="copy-link-btn" class="share-action-btn" title="Kopiraj povezavo">Kopiraj</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Highlighter Popover -->
+    <div id="highlighter-popover" class="highlighter-popover hidden">
+        <button class="highlighter-btn color-yellow" data-color="yellow" title="Rumeno"></button>
+        <button class="highlighter-btn color-green" data-color="green" title="Zeleno"></button>
+        <button class="highlighter-btn color-pink" data-color="pink" title="Rožnato"></button>
+        <button class="highlighter-btn color-blue" data-color="blue" title="Modro"></button>
+        <button class="highlighter-remove" id="remove-highlight" title="Odstrani označbo">&times;</button>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="confirm-modal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-labelledby="confirm-title">
+        <div class="confirm-modal-content">
+            <h3 id="confirm-title">Potrditev</h3>
+            <p id="confirm-message">Ali ste prepričani?</p>
+            <div class="confirm-actions">
+                <button id="confirm-cancel" class="confirm-btn secondary">Prekliči</button>
+                <button id="confirm-ok" class="confirm-btn primary">Ponastavi</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

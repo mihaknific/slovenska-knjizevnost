@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+    <style>
+        /* Edit these hex values to change the book's appearance */
+        .cover { fill: #2C3E50; }         /* Main Cover - Dark Blue */
+        .spine { fill: #1A252F; }         /* Center Spine - Darker Blue */
+        .page { fill: #ECF0F1; }          /* Pages - Off-White */
+        .bookmark { fill: #E74C3C; }      /* Bookmark - Red */
+        .text-line { stroke: #BDC3C7; }   /* Text Representation - Light Gray */
+        .crease { stroke: #BDC3C7; }      /* Center Fold - Light Gray */
+    </style>
+
+    <rect class="cover" x="10" y="10" width="80" height="80" rx="4" />
+    
+    <rect class="spine" x="47" y="10" width="6" height="80" />
+
+    <rect class="page" x="14" y="14" width="35" height="72" rx="1" />
+    
+    <rect class="page" x="51" y="14" width="35" height="72" rx="1" />
+
+    <line class="crease" x1="50" y1="14" x2="50" y2="86" stroke-width="1" />
+
+    <polygon class="bookmark" points="65,14 73,14 73,40 69,35 65,40" />
+
+    <g class="text-line" stroke-width="2" stroke-linecap="round">
+        <line x1="20" y1="26" x2="43" y2="26" />
+        <line x1="20" y1="36" x2="38" y2="36" />
+        <line x1="20" y1="46" x2="43" y2="46" />
+        <line x1="20" y1="56" x2="34" y2="56" />
+        <line x1="20" y1="66" x2="40" y2="66" />
+    </g>
+
+    <g class="text-line" stroke-width="2" stroke-linecap="round">
+        <line x1="56" y1="46" x2="80" y2="46" />
+        <line x1="56" y1="56" x2="72" y2="56" />
+        <line x1="56" y1="66" x2="80" y2="66" />
+    </g>
+</svg>

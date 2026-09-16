@@ -1,0 +1,160 @@
+/* Global Reset & Box Sizing */
+:where(*, *::before, *::after) {
+  box-sizing: border-box;
+  margin-block: 0;
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline: 0;
+}
+
+/* Custom Scrollbar for modern feel (WebKit) */
+::-webkit-scrollbar {
+  inline-size: 8px;
+  block-size: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(50% 0 0 / 0.1);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Firefox support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(50% 0 0 / 0.1) transparent;
+}
+
+
+/* Fonts are managed in google-fonts-local.css */
+
+:root {
+  /* Dimensions & Fonts */
+  --font-clamps: clamp(2.5rem, 3vw, 3rem);
+  --header-font: 'Cinzel', serif;
+  /* Primarily for content headings */
+  --body-font: 'Open Sans', sans-serif;
+  /* Primarily for content body */
+  --ui-font: 'Inter', 'Open Sans', sans-serif;
+  /* Stable font for UI elements */
+
+  /* Line Heights */
+  --heading-line-height: 1.3;
+  --content-line-height: 1.5;
+
+  /* Theme Colors - Light (Default) */
+  --bg-color: oklch(100.0% 0.0001 261.71);
+  --text-color: oklch(0.0% 0.0 0.0);
+  --heading-color: oklch(0.0% 0.0 0.0);
+  --nav-btn-bg: oklch(100.0% 0.0001 261.71);
+  --nav-bar-height: 70px;
+  --border-color: oklch(59.99% 0.0001 261.71 / 0.2);
+  --modal-bg: oklch(95.51% 0.0001 261.71);
+  --modal-text: oklch(21.78% 0.0 261.71);
+  --modal-shadow: oklch(0.0% 0.0 0.0 / 0.3);
+  --input-placeholder: oklch(59.99% 0.0001 261.71 / 0.8);
+  --item-hover: oklch(55.69% 0.0474 44.06 / 0.15);
+  --item-selected: oklch(55% 0.18 260);
+  /* Modern Electric Indigo */
+  --item-selected-text: white;
+  --switch-on-color: oklch(55% 0.18 260);
+  /* Harmonized Brownish/Accent */
+  --copy-btn-bf: oklch(0.58 0.21 273.96);
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --bg-color: oklch(0.0% 0.0 0.0);
+  --text-color: oklch(100.0% 0.0001 261.71);
+  --heading-color: oklch(100.0% 0.0001 261.71);
+  --nav-btn-bg: oklch(0.0% 0.0 0.0);
+  --border-color: oklch(59.99% 0.0001 261.71 / 0.2);
+  --modal-bg: oklch(23.5% 0.0 261.71);
+  --modal-text: oklch(84.52% 0.0001 261.71);
+  --modal-shadow: oklch(0.0% 0.0 0.0 / 0.5);
+  --item-hover: oklch(80.29% 0.0998 85.25 / 0.15);
+  --item-selected: oklch(0.6 0.06 85);
+  --item-selected-text: white;
+  --switch-on-color: oklch(65% 0.1 85);
+  /* Refined Accent */
+  color-scheme: dark;
+}
+
+/* Sepia Theme */
+[data-theme="sepia"] {
+  --bg-color: oklch(94.4% 0.0277 88.78);
+  --text-color: oklch(41.2% 0.0385 58.72);
+  --heading-color: oklch(41.2% 0.0385 58.72);
+  --nav-btn-bg: oklch(94.4% 0.0277 88.78);
+  --border-color: oklch(41.2% 0.0385 58.72 / 0.15);
+  --modal-bg: oklch(92.42% 0.0299 85.58);
+  --modal-text: oklch(41.2% 0.0385 58.72);
+  --modal-shadow: oklch(41.2% 0.0385 58.72 / 0.2);
+  --item-hover: oklch(51.45% 0.0632 61.31 / 0.12);
+  --item-selected: oklch(51.45% 0.0632 61.31/ 0.5);
+  --item-selected-text: white;
+  --switch-on-color: oklch(40% 0.05 60);
+  /* Deep Earthy Brown */
+  color-scheme: light;
+}
+
+/* Nord Theme */
+[data-theme="nord"] {
+  --bg-color: #2e3440;
+  --text-color: #eceff4;
+  --heading-color: #88c0d0;
+  --nav-btn-bg: #2e3440;
+  --border-color: rgba(136, 192, 208, 0.2);
+  --modal-bg: #3b4252;
+  --modal-text: #e5e9f0;
+  --modal-shadow: oklch(0.0% 0.0 0.0 / 0.4);
+  --item-hover: oklch(69.65% 0.0592 248.7 / 0.15);
+  --item-selected: oklch(69.65% 0.0592 248.7 / 0.3);
+  --item-selected-text: oklch(32.44% 0.023 264.18);
+  --switch-on-color: #88c0d0;
+  /* Nord Frost Blue */
+  color-scheme: dark;
+}
+
+/* Protanopia Theme (Red-Blind Safe) */
+[data-theme="protanopia"] {
+  --bg-color: oklch(98% 0.01 80);
+  --text-color: oklch(25% 0.05 250);
+  --heading-color: oklch(35% 0.1 250);
+  --nav-btn-bg: var(--bg-color);
+  --border-color: oklch(25% 0.05 250 / 0.2);
+  --modal-bg: oklch(94% 0.02 80);
+  --modal-text: var(--text-color);
+  --modal-shadow: oklch(0.0% 0.0 0.0 / 0.3);
+  --item-hover: oklch(55.69% 0.0474 44.06 / 0.15);
+  --item-selected: oklch(35% 0.1 250);
+  --item-selected-text: white;
+  --switch-on-color: oklch(45% 0.1 250);
+  /* Blue */
+  color-scheme: light;
+}
+
+/* Tritanopia Theme (Blue-Blind Safe) */
+[data-theme="tritanopia"] {
+  --bg-color: oklch(97% 0.01 150);
+  --text-color: oklch(20% 0.04 20);
+  --heading-color: oklch(30% 0.08 20);
+  --nav-btn-bg: var(--bg-color);
+  --border-color: oklch(20% 0.04 20 / 0.2);
+  --modal-bg: oklch(93% 0.02 150);
+  --modal-text: var(--text-color);
+  --modal-shadow: oklch(0.0% 0.0 0.0 / 0.3);
+  --item-hover: oklch(55.69% 0.0474 44.06 / 0.15);
+  --item-selected: oklch(30% 0.08 20);
+  --item-selected-text: white;
+  --switch-on-color: oklch(45% 0.08 20);
+  /* Dark Red */
+  color-scheme: light;
+}
+
+/* Custom Theme — all colors set dynamically via JS inline styles */
