@@ -862,6 +862,11 @@ body.layout-prose .poem-subgroup-header {
     background: oklch(69.52% 0.1816 30.2);
     color: white !important;
   }
+
+  &.portfolio {
+    background: var(--c-surface-variant);
+    color: var(--c-text) !important;
+  }
 }
 
 /* ── Favorites Settings Button ── */
